@@ -5,11 +5,8 @@ import com.twitter.scalding._
 
 class DrunkGuyJob(args: Args) extends Job(args) {
 
-  object Params {
-    val n = 1000
-    val e = 25
-  }
-  import Params._
+  val n = 1000
+  val e = 25
 
   case class Drunk(private val initPos: (Int, Int) = (0, 0))   {
     private var x: Int = initPos._1
