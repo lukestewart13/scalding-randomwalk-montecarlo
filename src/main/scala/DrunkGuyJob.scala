@@ -1,6 +1,7 @@
 /**
  * Created by lukestewart on 4/7/15.
  */
+import com.twitter.algebird.AveragedValue
 import com.twitter.scalding._
 
 class DrunkGuyJob(args: Args) extends Job(args) {
@@ -8,7 +9,7 @@ class DrunkGuyJob(args: Args) extends Job(args) {
   val n = 1000
   val e = 25
 
-  case class Drunk(private val initPos: (Int, Int) = (0, 0))   {
+  case class Drunk(private val initPos: (Int, Int) = (0, 0)) {
     private var x: Int = initPos._1
     private var y: Int = initPos._2
     def step(): Unit = {
@@ -25,7 +26,8 @@ class DrunkGuyJob(args: Args) extends Job(args) {
     (1 to e).foreach(_ => drunk.step())
     drunk
   }
-  val avgDistanceTraveled = lostDrunkPipe.groupAll.foldLeft(0.0) { (a, b) => a + b.distanceTraveled / n }
+  val avgAgg = AveragedValue.aggregator.composePrepare[Drunk](_.distanceTraveled)
+  val avgDistanceTraveled = lostDrunkPipe.aggregate(avgAgg)
   avgDistanceTraveled.write(TypedTsv(args("output")))
 
 }
