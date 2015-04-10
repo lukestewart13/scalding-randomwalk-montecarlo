@@ -4,17 +4,19 @@
 import com.twitter.algebird.AveragedValue
 import com.twitter.scalding._
 
+import scala.util.Random
+
 class DrunkGuyJob(args: Args) extends Job(args) {
 
   val n = 1000
-  val e = 100000
+  val e = 121
 
   case class Drunk(private val initPos: (Int, Int) = (0, 0)) {
     private var x: Int = initPos._1
     private var y: Int = initPos._2
     def step(): Unit = {
-      x += Math.round(Math.random * 2 - 1).toInt
-      y += Math.round(Math.random * 2 - 1).toInt
+      x += Random.nextInt(3) - 1
+      y += Random.nextInt(3) - 1
       if ((x, y) == (0, 0)) step()
     }
     def pos: (Int, Int) = (x, y)
