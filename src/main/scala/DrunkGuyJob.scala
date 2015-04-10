@@ -13,8 +13,9 @@ class DrunkGuyJob(args: Args) extends Job(args) {
     private var x: Int = initPos._1
     private var y: Int = initPos._2
     def step(): Unit = {
-      x += { if (Math.random < 0.5) -1 else 1 }
-      y += { if (Math.random < 0.5) -1 else 1 }
+      x += Math.round(Math.random * 2 - 1).toInt
+      y += Math.round(Math.random * 2 - 1).toInt
+      if ((x, y) == (0, 0)) step()
     }
     def pos: (Int, Int) = (x, y)
     def distanceTraveled: Double = Math.sqrt(Math.pow(x - initPos._1, 2) + Math.pow(y - initPos._2, 2))
