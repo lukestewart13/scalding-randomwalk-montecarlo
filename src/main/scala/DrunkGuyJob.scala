@@ -3,7 +3,6 @@
  */
 import com.twitter.algebird.AveragedValue
 import com.twitter.scalding._
-
 import scala.util.Random
 
 class DrunkGuyJob(args: Args) extends Job(args) {
@@ -17,7 +16,6 @@ class DrunkGuyJob(args: Args) extends Job(args) {
     def step(): Unit = {
       x += Random.nextInt(3) - 1
       y += Random.nextInt(3) - 1
-      if ((x, y) == (0, 0)) step()
     }
     def pos: (Int, Int) = (x, y)
     def distanceTraveled: Double = Math.sqrt(Math.pow(x - initPos._1, 2) + Math.pow(y - initPos._2, 2))
